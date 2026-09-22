@@ -1,0 +1,80 @@
+{
+  "entities": {
+    "Device": {
+      "title": "Device",
+      "description": "EcoBin IoT Hardware Unit (ESP8266 + HC-SR04)",
+      "type": "object",
+      "properties": {
+        "deviceId": { "type": "string", "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "maxLength": 100 },
+        "location": { "type": "string", "maxLength": 150 },
+        "status": { "type": "string", "enum": ["online", "offline", "warning"] },
+        "binHeightCm": { "type": "number" },
+        "lastSeen": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["deviceId", "name", "location", "status"]
+    },
+    "SensorReading": {
+      "title": "SensorReading",
+      "description": "Ultrasonic distance & calculated waste level telemetry",
+      "type": "object",
+      "properties": {
+        "deviceId": { "type": "string", "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "distance": { "type": "number" },
+        "wasteLevel": { "type": "number" },
+        "status": { "type": "string", "enum": ["NORMAL", "MEDIUM", "HIGH", "OVERFLOW"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["deviceId", "distance", "wasteLevel", "status", "timestamp"]
+    },
+    "Alert": {
+      "title": "Alert",
+      "description": "Automated system and overflow alerts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "deviceId": { "type": "string", "maxLength": 64 },
+        "type": { "type": "string", "enum": ["MEDIUM", "HIGH", "CRITICAL", "OVERFLOW", "DEVICE OFFLINE", "SENSOR ERROR"] },
+        "message": { "type": "string", "maxLength": 300 },
+        "wasteLevel": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["unread", "read", "resolved"] }
+      },
+      "required": ["deviceId", "type", "message", "timestamp", "status"]
+    },
+    "Feedback": {
+      "title": "Feedback",
+      "description": "User reviews and suggestions for EcoBin system",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 120 },
+        "rating": { "type": "number" },
+        "feedback": { "type": "string", "maxLength": 1000 },
+        "suggestions": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "rating", "feedback"]
+    }
+  },
+  "firestore": {
+    "/devices/{deviceId}": {
+      "schema": "Device",
+      "description": "Collection of configured EcoBin IoT devices"
+    },
+    "/sensorReadings/{readingId}": {
+      "schema": "SensorReading",
+      "description": "Historical time-series sensor telemetry data from ultrasonic sensors"
+    },
+    "/alerts/{alertId}": {
+      "schema": "Alert",
+      "description": "System-generated alerts for high waste levels, overflows, and offline devices"
+    },
+    "/feedback/{feedbackId}": {
+      "schema": "Feedback",
+      "description": "User feedback and rating submissions"
+    }
+  }
+}

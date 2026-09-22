@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Devices: Public read allowed so any citizen can check bin status; write requires admin/auth
+    match /devices/{deviceId} {
+      allow read: if isValidId(deviceId);
+      allow create, update: if isSignedIn() && isValidId(deviceId);
+      allow delete: if isSignedIn() && isValidId(deviceId);
+    }
+
+    // Sensor Readings: IoT device readings and telemetry queries
+    match /sensorReadings/{readingId} {
+      allow read: if true;
+      allow create: if request.resource.data.deviceId is string 
+                    && request.resource.data.distance is number 
+                    && request.resource.data.wasteLevel is number;
+      allow update, delete: if isSignedIn();
+    }
+
+    // Alerts: Anyone can read active alerts for public safety; creation and resolution via backend/auth
+    match /alerts/{alertId} {
+      allow read: if true;
+      allow create: if request.resource.data.deviceId is string;
+      allow update: if true;
+      allow delete: if isSignedIn();
+    }
+
+    // Feedback: Any user can submit feedback; admin/auth can view
+    match /feedback/{feedbackId} {
+      allow create: if request.resource.data.name is string 
+                    && request.resource.data.name.size() <= 100
+                    && request.resource.data.email is string
+                    && request.resource.data.email.size() <= 120
+                    && request.resource.data.rating is number;
+      allow read: if isSignedIn();
+    }
+  }
+}

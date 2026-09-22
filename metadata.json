@@ -1,0 +1,6 @@
+{
+  "name": "EcoBin 24×7 - Smart Waste Monitoring",
+  "description": "IoT-based Smart Waste Monitoring & Overflow Alert System with real-time ESP8266 & HC-SR04 telemetry, collection priority, and automated alerts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
