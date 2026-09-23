@@ -31,7 +31,7 @@ import {
 import smartBinImg from '../assets/images/smart_bin_prototype_1790089694784.jpg';
 import circuitBoardImg from '../assets/images/circuit_breadboard_1790089708196.jpg';
 import fieldTestingImg from '../assets/images/iot_field_testing_1790089724087.jpg';
-import teamShowcaseImg from '../assets/images/team_ecobin_showcase.svg';
+import teamShowcaseImg from '../assets/images/team_ecobin_showcase.jpg';
 
 interface AboutPageProps {
   onOpenPinoutModal: () => void;
