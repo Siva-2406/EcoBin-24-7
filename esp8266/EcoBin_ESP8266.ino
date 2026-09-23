@@ -4,7 +4,6 @@
 
 const char* WIFI_SSID = "EcoTest";
 const char* WIFI_PASSWORD = "EcoTest123";
-
 const char* API_URL = "https://eco-bin-24-7.vercel.app/api/sensor-data";
 const char* DEVICE_ID = "ECOBIN-001";
 
@@ -24,10 +23,8 @@ float readDistanceCm() {
   digitalWrite(TRIG_PIN, HIGH);
   delayMicroseconds(10);
   digitalWrite(TRIG_PIN, LOW);
-
   unsigned long duration = pulseIn(ECHO_PIN, HIGH, 30000);
   if (duration == 0) return -1;
-
   return (duration * 0.0343) / 2.0;
 }
 
@@ -50,7 +47,6 @@ void updateBuzzer(float wasteLevel) {
     digitalWrite(BUZZER_PIN, HIGH);
     delay(100);
     digitalWrite(BUZZER_PIN, LOW);
-    delay(900);
   } else {
     digitalWrite(BUZZER_PIN, LOW);
   }
@@ -84,13 +80,11 @@ void sendToServer(float distance, float wasteLevel, String status) {
   Serial.println(payload);
 
   int httpCode = https.POST(payload);
-
   Serial.print("HTTP response: ");
   Serial.println(httpCode);
 
-  String response = https.getString();
   Serial.println("Server response:");
-  Serial.println(response);
+  Serial.println(https.getString());
 
   https.end();
 }
@@ -102,7 +96,6 @@ void connectWiFi() {
 
   Serial.print("Connecting to Wi-Fi: ");
   Serial.println(WIFI_SSID);
-
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
   int count = 0;
@@ -173,17 +166,15 @@ void loop() {
     Serial.print("Distance: ");
     Serial.print(distance, 1);
     Serial.println(" cm");
-
     Serial.print("Waste Level: ");
     Serial.print(wasteLevel, 1);
     Serial.println("%");
-
     Serial.print("Status: ");
     Serial.println(status);
 
+    updateBuzzer(wasteLevel);
     sendToServer(distance, wasteLevel, status);
   }
 
-  updateBuzzer(0); // keep buzzer quiet between uploads
   delay(50);
 }
