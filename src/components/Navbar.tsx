@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Trash2,
+  Recycle,
   Activity,
   History,
   Bell,
@@ -66,7 +66,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => setActiveTab('dashboard')}
           >
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-              <Trash2 className="w-5 h-5 text-white" />
+              <Recycle className="w-5 h-5 text-white" strokeWidth={2.5} />
             </div>
             <div>
               <div className="flex items-center gap-2">
