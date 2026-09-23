@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2, Heart, Cpu, ShieldCheck } from 'lucide-react';
+import { Recycle, Heart, Cpu, ShieldCheck } from 'lucide-react';
 
 interface FooterProps {
   setActiveTab: (tab: string) => void;
@@ -14,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab }) => {
           <div className="md:col-span-2 space-y-3">
             <div className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-xl bg-emerald-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/30">
-                <Trash2 className="w-5 h-5" />
+                <Recycle className="w-5 h-5" strokeWidth={2.5} />
               </div>
               <span className="text-xl font-bold text-white tracking-tight">
                 EcoBin<span className="text-emerald-400"> 24×7</span>
