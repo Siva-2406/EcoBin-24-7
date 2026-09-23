@@ -31,6 +31,7 @@ import {
 import smartBinImg from '../assets/images/smart_bin_prototype_1790089694784.jpg';
 import circuitBoardImg from '../assets/images/circuit_breadboard_1790089708196.jpg';
 import fieldTestingImg from '../assets/images/iot_field_testing_1790089724087.jpg';
+import teamShowcaseImg from '../assets/images/team_ecobin_showcase.svg';
 
 interface AboutPageProps {
   onOpenPinoutModal: () => void;
@@ -220,7 +221,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenPinoutModal }) => {
             </h2>
           </div>
           <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full self-start sm:self-auto">
-            1 Video Demonstration • 3 Hardware Prototype Photos
+            1 Video Demonstration • 3 Hardware Prototype Photos + Team Showcase
           </span>
         </div>
 
@@ -462,15 +463,15 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenPinoutModal }) => {
               onClick={() =>
                 setActiveMedia({
                   type: 'image',
-                  src: fieldTestingImg,
-                  title: 'Campus Laboratory Testing & Real-Time Telemetry',
-                  description: 'Engineering students in the laboratory validating real-time packet ingest speed, live dashboard updates, and overflow buzzer response.',
+                  src: teamShowcaseImg,
+                  title: 'EcoBin 24×7 Team & Prototype Showcase',
+                  description: 'EcoBin 24×7 team showcase with the working prototype, dashboard screens, and project documentation from Engineering Clinic 2 — IDEA Lab.',
                 })
               }
             >
               <img
-                src={fieldTestingImg}
-                alt="Campus Laboratory Testing & Real-Time Telemetry"
+                src={teamShowcaseImg}
+                alt="EcoBin 24×7 Team and Prototype Showcase"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute top-3 left-3">
@@ -490,22 +491,22 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenPinoutModal }) => {
             <div className="p-5 flex-1 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-2 text-[11px] font-bold text-amber-700 uppercase tracking-wide mb-1">
-                  <span>Laboratory Validation</span>
+                  <span>Engineering Clinic 2 — IDEA Lab</span>
                 </div>
                 <h3 className="text-base font-extrabold text-slate-900 leading-snug">
-                  Field Testing &amp; Real-Time Telemetry Verification
+                  Team &amp; Prototype Showcase
                 </h3>
                 <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                  Live verification of Wi-Fi 802.11 b/g/n transmission stability, continuous background polling, and automated instant alert dispatches across college campus hotspots.
+                  Team demonstration of the EcoBin 24×7 prototype, live dashboard, and project documentation developed under Engineering Clinic 2 — IDEA Lab.
                 </p>
               </div>
 
               <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2 text-[11px]">
                 <span className="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 font-bold border border-amber-200">
-                  Telemetry Latency &lt;200ms
+                  Working Prototype
                 </span>
                 <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-mono">
-                  HTTP 200 OK
+                  IDEA Lab
                 </span>
               </div>
             </div>
