@@ -43,6 +43,7 @@ interface TeamMember {
   year: string;
   rollNo: string;
   mailID: string;
+  linkedinUrl: string;
   role: string;
   avatarUrl: string;
 }
@@ -50,33 +51,36 @@ interface TeamMember {
 const DEFAULT_TEAM_MEMBERS: TeamMember[] = [
   {
     id: 'member-1',
-    name: 'Senthil Kumar R',
+    name: 'Sivaperumal B',
     dept: 'Computer Science and Business Systems (CSBS)',
-    year: 'II Year (Batch 2025-2029)',
-    rollNo: '2K25CSBS49',
+    year: 'II CSBS',
+    rollNo: '611225244049',
     mailID: '2k25csbs49@kiot.ac.in',
-    role: 'Project Lead & IoT Firmware Developer',
-    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=240&auto=format&fit=crop&q=80',
+    linkedinUrl: '',
+    role: 'Project Team Member',
+    avatarUrl: '',
   },
   {
     id: 'member-2',
-    name: 'Dharshini M',
+    name: 'Sureshkrishna B',
     dept: 'Computer Science and Business Systems (CSBS)',
-    year: 'II Year (Batch 2025-2029)',
-    rollNo: '2K25CSBS18',
-    mailID: '2k25csbs18@kiot.ac.in',
-    role: 'Full-Stack Web & Telemetry Architect',
-    avatarUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=240&auto=format&fit=crop&q=80',
+    year: 'II CSBS',
+    rollNo: '611225244056',
+    mailID: '2k25csbs56@kiot.ac.in',
+    linkedinUrl: '',
+    role: 'Project Team Member',
+    avatarUrl: '',
   },
   {
     id: 'member-3',
-    name: 'Ashwin K',
+    name: 'Priyadharshini M',
     dept: 'Computer Science and Business Systems (CSBS)',
-    year: 'II Year (Batch 2025-2029)',
-    rollNo: '2K25CSBS07',
-    mailID: '2k25csbs07@kiot.ac.in',
-    role: 'Hardware Circuit Design & Sensor Testing',
-    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=240&auto=format&fit=crop&q=80',
+    year: 'II CSBS',
+    rollNo: '611225244037',
+    mailID: '2k25csbs37@kiot.ac.in',
+    linkedinUrl: '',
+    role: 'Project Team Member',
+    avatarUrl: '',
   },
 ];
 
@@ -84,7 +88,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenPinoutModal }) => {
   // Team members state with local editing capability
   const [team, setTeam] = useState<TeamMember[]>(() => {
     try {
-      const saved = localStorage.getItem('ecobin_team_members');
+      const saved = localStorage.getItem('ecobin_team_members_v2');
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.warn('Failed to load team members from storage', e);
@@ -117,14 +121,14 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenPinoutModal }) => {
 
   const handleSaveTeam = () => {
     setTeam(editableTeam);
-    localStorage.setItem('ecobin_team_members', JSON.stringify(editableTeam));
+    localStorage.setItem('ecobin_team_members_v2', JSON.stringify(editableTeam));
     setIsEditingTeam(false);
   };
 
   const handleResetTeam = () => {
     setEditableTeam(DEFAULT_TEAM_MEMBERS);
     setTeam(DEFAULT_TEAM_MEMBERS);
-    localStorage.removeItem('ecobin_team_members');
+    localStorage.removeItem('ecobin_team_members_v2');
     setIsEditingTeam(false);
   };
 
@@ -515,13 +519,13 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenPinoutModal }) => {
           <div>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 mb-1.5">
               <Users className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Project Engineering Team</span>
+              <span>Engineering Clinic 2 — IDEA Lab</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              Team Members &amp; Academic Credentials
+              Team Members
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
-              Undergraduate engineering students behind the design, embedded firmware, and cloud software for EcoBin 24×7.
+              Team members of EcoBin 24×7 under Engineering Clinic 2 — IDEA Lab.
             </p>
           </div>
 
@@ -657,6 +661,23 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenPinoutModal }) => {
                       className="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-mono focus:ring-2 focus:ring-emerald-500 outline-hidden"
                     />
                   </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-700 mb-1">
+                      LinkedIn URL
+                    </label>
+                    <input
+                      type="url"
+                      placeholder="https://www.linkedin.com/in/..."
+                      value={editableTeam[index].linkedinUrl}
+                      onChange={(e) => {
+                        const updated = [...editableTeam];
+                        updated[index] = { ...updated[index], linkedinUrl: e.target.value };
+                        setEditableTeam(updated);
+                      }}
+                      className="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs focus:ring-2 focus:ring-emerald-500 outline-hidden"
+                    />
+                  </div>
                 </div>
               ) : (
                 /* Display Card */
@@ -664,11 +685,20 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenPinoutModal }) => {
                   <div>
                     {/* Header with Avatar and Role */}
                     <div className="flex items-start gap-3.5 mb-4">
-                      <img
-                        src={member.avatarUrl}
-                        alt={member.name}
-                        className="w-14 h-14 rounded-2xl object-cover border-2 border-white shadow-sm shrink-0"
-                      />
+                      {member.avatarUrl ? (
+                        <img
+                          src={member.avatarUrl}
+                          alt={member.name}
+                          className="w-14 h-14 rounded-2xl object-cover border-2 border-white shadow-sm shrink-0"
+                        />
+                      ) : (
+                        <div
+                          className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 border-2 border-white shadow-sm shrink-0 flex items-center justify-center font-black text-lg"
+                          aria-label={member.name}
+                        >
+                          {member.name.split(' ').map((part) => part[0]).slice(0, 2).join('')}
+                        </div>
+                      )}
                       <div className="min-w-0">
                         <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 uppercase tracking-wider mb-1">
                           Team Member {index + 1}
